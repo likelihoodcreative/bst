@@ -101,7 +101,7 @@ const parse=s=>{s=String(s).replace(/\s/g,'');
 const fmt=n=>{const r=Math.round(n*100)/100;
   return r.toLocaleString('en-US',{minimumFractionDigits:r%1?2:0,maximumFractionDigits:2})};
 
-let people=[{name:'Me',cash:false},{name:'Friend',cash:true}];
+let people=[{name:'Me',cash:false},{name:'Josh',cash:true}];
 try{const s=JSON.parse(localStorage.getItem('splitPeople'));if(Array.isArray(s)&&s.length)people=s}catch(e){}
 try{const s=localStorage.getItem('splitTip');if(s)tip.value=s}catch(e){}
 const save=()=>{try{localStorage.setItem('splitPeople',JSON.stringify(people));localStorage.setItem('splitTip',tip.value)}catch(e){}};

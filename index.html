@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Chairs">
 <meta name="theme-color" content="#000000">
@@ -25,19 +25,21 @@
 html,body{background:#0b0b0b url(texture.jpg) center top/520px auto repeat}
 body{margin:0;color:var(--ink);font:400 15px/1.45 "Azeret Mono",ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.02em;overflow-x:clip;min-height:100vh}
 .paperwrap{max-width:460px;margin:8px auto 24px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55));container-type:inline-size}
-.paper{isolation:isolate;background:#f2f2f0 url(paper.png) 0 0/300px repeat;
--webkit-mask:url(paper-top.png) top/100% auto no-repeat,linear-gradient(#000,#000) 0 calc(38.23cqw - 3px)/100% calc(100% - 38.23cqw - 46.17cqw + 6px) no-repeat,url(paper-bottom.png) bottom/100% auto no-repeat;
-mask:url(paper-top.png) top/100% auto no-repeat,linear-gradient(#000,#000) 0 calc(38.23cqw - 3px)/100% calc(100% - 38.23cqw - 46.17cqw + 6px) no-repeat,url(paper-bottom.png) bottom/100% auto no-repeat}
-.paper::before,.paper::after{content:"";display:block;background-repeat:no-repeat;background-size:100% 100%;mix-blend-mode:multiply}
-.paper::before{aspect-ratio:429/164;background-image:url(paper-top.png)}
-.paper::after{aspect-ratio:431/199;background-image:url(paper-bottom.png)}
+.paper{position:relative}
+.paper::before,.paper::after{content:"";display:block;background-color:#fff;background-repeat:no-repeat,repeat;background-blend-mode:multiply}
+.paper::before{aspect-ratio:429/164;background-image:url(paper-top.png),url(paper.png);background-size:100% 100%,300px;background-position:0 0,0 0;
+-webkit-mask:url(paper-top.png) 0 0/100% 100% no-repeat;mask:url(paper-top.png) 0 0/100% 100% no-repeat}
+.paper::after{aspect-ratio:431/199;background-image:url(paper-bottom.png),url(paper.png);background-size:100% 100%,300px;background-position:0 0,0 3px;
+-webkit-mask:url(paper-bottom.png) 0 0/100% 100% no-repeat;mask:url(paper-bottom.png) 0 0/100% 100% no-repeat}
+main::before{content:"";position:absolute;z-index:-1;left:0;right:0;top:calc(var(--ot) - 3px);bottom:calc(var(--ob) - 3px);background:#f2f2f0 url(paper.png) 0 calc(3px - 38.23cqw)/300px repeat}
+main::after{content:"";position:absolute;z-index:-1;left:0;right:0;top:calc(var(--ot) - 3px);bottom:calc(var(--ob) - 3px);background:url(paper.png) 0 100%/300px repeat;-webkit-mask:linear-gradient(transparent calc(100% - 220px),#000 100%);mask:linear-gradient(transparent calc(100% - 220px),#000 100%)}
 main{--ot:19.1cqw;--ob:23.1cqw;display:flow-root;position:relative;z-index:1;padding:0 20px;margin:calc(-1 * var(--ot)) 0 calc(-1 * var(--ob))}
 main>header{padding-top:0}
-@media(max-width:500px){.paperwrap{margin:4px 8px 16px}}
+@media(max-width:500px){.paperwrap{margin:6px 12px 24px}}
 header{text-align:center;padding-top:8px}
 header svg{width:44px;height:74px;display:block;margin:0 auto 22px}
 h1{font-size:26px;line-height:1.1;font-weight:800;margin:0 0 14px;letter-spacing:.04em}
-.sub{margin:0;font-size:14px;letter-spacing:.06em;font-weight:300}
+.sub{margin:0;font-size:14px;letter-spacing:.06em;font-weight:300;text-wrap:pretty}
 hr{border:0;border-top:1px solid var(--line);margin:30px 0 26px}
 .sec{margin-bottom:28px}
 label,.lab{display:block;font-size:13px;margin:0 0 12px;letter-spacing:.08em;font-weight:600}
@@ -50,12 +52,12 @@ button{font:inherit;text-transform:uppercase;letter-spacing:.06em;cursor:pointer
 .tips button,.cashbtn,.add{font-weight:400}
 .tips button.on,.cashbtn.on{background:#111 url(texture.jpg) center/320px auto;color:var(--bg);font-weight:700}
 button:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.person{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.person{display:flex;align-items:center;gap:6px;margin-bottom:8px}
 .person input{flex:1;font-size:15px;font-weight:500;padding:8px 12px;min-height:46px}
 .sz{display:flex;align-items:center;gap:6px;margin:0;font-size:15px}
 .person .sz input{flex:none;width:52px;text-align:center;padding:8px 4px}
-.cashbtn{flex:none;width:118px;padding:0 6px;white-space:nowrap;min-height:46px}
-.del{min-height:46px;width:36px;border:0;background:none;color:var(--ink);font-size:22px;line-height:1;font-weight:200}
+.cashbtn{flex:none;width:94px;padding:0 4px;white-space:nowrap;min-height:46px;font-size:12px!important;letter-spacing:.03em}
+.del{min-height:46px;width:24px;padding:0;margin-left:-2px;border:0;background:none;color:var(--ink);font-size:18px;line-height:1;font-weight:200;flex:none}
 .adds{display:flex;gap:8px;margin-top:22px}.add{flex:1}
 .pblock{padding:20px 0;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 13px) left bottom/100% 1.5px no-repeat}.pblock:first-child{padding-top:0}.pblock .person{margin-bottom:0}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
@@ -89,6 +91,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-of
 .note{font-weight:300;font-size:12px;margin-top:22px;text-transform:none;letter-spacing:0}
 body>.note{display:none}
 @media(prefers-reduced-motion:no-preference){.tips button,.cashbtn{transition:background .12s,color .12s}}
+.person input,.item input,.person .sz input{font-size:16px}
+input::placeholder{color:var(--ink);opacity:1;font-weight:200}
 </style>
 
 </head>
@@ -120,7 +124,7 @@ body>.note{display:none}
 </section>
 
 <section class="sec">
-  <button type="button" class="toggle" id="dtog" aria-pressed="false"><i></i>Top chairs user</button>
+  <button type="button" class="toggle" id="dtog" aria-pressed="false"><i></i>Top chairs power user</button>
   <div class="drinkin" id="dbox" hidden>
     <div><label for="wine">Wine</label><input class="mid" id="wine" inputmode="decimal" placeholder="0" autocomplete="off"></div>
     <div><label for="coke">Cokes</label><input class="mid" id="coke" inputmode="decimal" placeholder="0" autocomplete="off"></div>
@@ -140,7 +144,7 @@ body>.note{display:none}
   <div id="warn"></div>
   <button class="copy" id="copy" type="button">Copy totals</button>
 </section>
-<p class="note">Bill and tip split equally per person; a group pays for everyone in it. In Top chairs user mode, wine and cokes are split only between the people who had them, anything under Other is paid only by that person, and the rest of the bill is split equally. People with cash pay the whole tip between them; everyone else pays their share of it on card.</p>
+<p class="note">Bill and tip split equally per person; a group pays for everyone in it. In Top chairs power user mode, wine and cokes are split only between the people who had them, anything under Other is paid only by that person, and the rest of the bill is split equally. People with cash pay the whole tip between them; everyone else pays their share of it on card.</p>
 </main></div></div>
 <script>
 {

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Chairs">
-<meta name="theme-color" content="#14532d">
+<meta name="theme-color" content="#000000">
 <title>Chairs</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -13,62 +13,101 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <style>
-/* VOICE: quick, calm, one-handed at the table
-   IDEA: the restaurant check folder, receipt slipped inside
-   PICTURE: the receipt itself, one line per person, totals large
-   COLOUR and TYPE: bottle green folder, paper white receipt, tomato accent; Figtree
-   LAYOUT: single column, bill and tip, people with cash toggles, receipt below */
-:root{color-scheme:light dark;
---bg:light-dark(#14532d,#0b2416);--paper:light-dark(#fffdf7,#18201b);--ink:light-dark(#141414,#eef2ee);
---mute:light-dark(#5f665f,#9aa69c);--line:light-dark(#d9d6cc,#2c3a30);--acc:#e8492f;--field:light-dark(#fff,#0f1712);--ok:light-dark(#14532d,#4ade80)}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+/* VOICE: plain, typewritten, a restaurant docket
+   IDEA: a white till receipt laid on a black table
+   PICTURE: the receipt itself, chair mark at its head, big bold totals
+   COLOUR and TYPE: crumpled black paper page, torn white receipt, black ink only; Azeret Mono, hierarchy by weight not grey
+   LAYOUT: one centred receipt column with a torn bottom edge */
+@font-face{font-family:"Azeret Mono";src:url(azeret.woff2) format("woff2-variations"),url(azeret.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{color-scheme:light;--page:#000;--bg:#fff;--ink:#000;--line:#000}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,-apple-system,sans-serif;overflow-x:clip;min-height:100vh}
-main{max-width:460px;margin:0 auto;padding:20px 16px 40px}
-h1{color:#fff;font-size:36px;line-height:1.05;font-weight:800;margin:6px 0 2px}
-.sub{color:#cfe3d3;margin:0 0 16px;font-size:17px}
-h2{font-size:17px;margin:0 0 10px;font-weight:800}
-.card{background:var(--paper);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);margin-bottom:14px}
-label{display:block;font-size:14px;font-weight:600;color:var(--mute);margin-bottom:6px}
-input{font-family:inherit;color:var(--ink);background:var(--field);border:2px solid var(--line);border-radius:12px}
-input:focus{outline:none;border-color:var(--acc)}
-.big{width:100%;font-weight:800;font-size:28px;font-variant-numeric:tabular-nums;padding:10px 14px;min-height:56px}
-.row{margin-bottom:16px}
-.tips{display:flex;gap:8px;margin-top:8px}
-.tips button,.add{flex:1;min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--field);color:var(--ink);font:600 16px Figtree,sans-serif}
-.tips button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-button:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-.person{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
-.person input{flex:1;font-size:16px;font-weight:600;padding:8px 10px;min-height:44px}
-.cashbtn{min-height:44px;min-width:92px;border-radius:22px;border:2px solid var(--line);background:var(--field);color:var(--mute);font:600 15px Figtree,sans-serif;white-space:nowrap}
-.cashbtn.on{background:var(--ok);border-color:var(--ok);color:var(--paper)}
-.del{min-height:44px;width:44px;border:0;background:none;color:var(--mute);font-size:24px;line-height:1}
-.add{width:100%;margin-top:12px;flex:none}
-.adds{display:flex;gap:8px}.adds .add{flex:1}
-.sz{display:flex;align-items:center;gap:4px;color:var(--mute);font-weight:600;font-size:15px}
-.person .sz input{flex:none;width:52px;text-align:center;padding:8px 4px;font-variant-numeric:tabular-nums}
-.who em{font-style:normal;font-weight:400;color:var(--mute);font-size:14px}
-.receipt{padding:20px 18px 26px;border-radius:4px 4px 0 0;
--webkit-mask:radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 0/16px 100% repeat-x;
-mask:radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 0/16px 100% repeat-x}
-.who{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line)}
-.who span{font-weight:600;overflow-wrap:anywhere}
-.who small{display:block;color:var(--acc);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
-.amt{font-weight:800;font-size:clamp(24px,7.5vw,32px);font-variant-numeric:tabular-nums;white-space:nowrap}
-.meta{display:flex;justify-content:space-between;gap:12px;color:var(--mute);font-size:14px;font-variant-numeric:tabular-nums}
-.warn{background:light-dark(#fff1ee,#3a1712);color:var(--ink);border-radius:10px;padding:10px 12px;font-size:14px;margin-top:12px}
-.copy{margin-top:14px;width:100%;min-height:48px;border:0;border-radius:12px;background:var(--acc);color:#fff;font:800 16px Figtree,sans-serif}
-.note{color:#cfe3d3;font-size:13px;margin-top:4px}
+[hidden]{display:none!important}
+html,body{background:#0b0b0b url(texture.jpg) center top/520px auto repeat}
+body{margin:0;color:var(--ink);font:400 15px/1.45 "Azeret Mono",ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.02em;overflow-x:clip;min-height:100vh}
+.paperwrap{max-width:460px;margin:8px auto 24px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55));container-type:inline-size}
+.paper{isolation:isolate;background:#f2f2f0 url(paper.png) 0 0/300px repeat;
+-webkit-mask:url(paper-top.png) top/100% auto no-repeat,linear-gradient(#000,#000) 0 calc(38.23cqw - 3px)/100% calc(100% - 38.23cqw - 46.17cqw + 6px) no-repeat,url(paper-bottom.png) bottom/100% auto no-repeat;
+mask:url(paper-top.png) top/100% auto no-repeat,linear-gradient(#000,#000) 0 calc(38.23cqw - 3px)/100% calc(100% - 38.23cqw - 46.17cqw + 6px) no-repeat,url(paper-bottom.png) bottom/100% auto no-repeat}
+.paper::before,.paper::after{content:"";display:block;background-repeat:no-repeat;background-size:100% 100%;mix-blend-mode:multiply}
+.paper::before{aspect-ratio:429/164;background-image:url(paper-top.png)}
+.paper::after{aspect-ratio:431/199;background-image:url(paper-bottom.png)}
+main{--ot:19.1cqw;--ob:23.1cqw;display:flow-root;position:relative;z-index:1;padding:0 20px;margin:calc(-1 * var(--ot)) 0 calc(-1 * var(--ob))}
+main>header{padding-top:0}
+@media(max-width:500px){.paperwrap{margin:4px 8px 16px}}
+header{text-align:center;padding-top:8px}
+header svg{width:44px;height:74px;display:block;margin:0 auto 22px}
+h1{font-size:26px;line-height:1.1;font-weight:800;margin:0 0 14px;letter-spacing:.04em}
+.sub{margin:0;font-size:14px;letter-spacing:.06em;font-weight:300}
+hr{border:0;border-top:1px solid var(--line);margin:30px 0 26px}
+.sec{margin-bottom:28px}
+label,.lab{display:block;font-size:13px;margin:0 0 12px;letter-spacing:.08em;font-weight:600}
+input{font:inherit;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:0;text-transform:uppercase;-webkit-appearance:none}
+input:focus{outline:none;background:rgba(0,0,0,.04)}
+.big{width:100%;font-weight:800;font-size:40px;letter-spacing:0;padding:10px 16px;min-height:70px;font-variant-numeric:tabular-nums}
+.tips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+button{font:inherit;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;border-radius:0}
+.tips button,.add,.cashbtn,.copy{min-height:44px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:14px}
+.tips button,.cashbtn,.add{font-weight:400}
+.tips button.on,.cashbtn.on{background:#111 url(texture.jpg) center/320px auto;color:var(--bg);font-weight:700}
+button:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.person{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.person input{flex:1;font-size:15px;font-weight:500;padding:8px 12px;min-height:46px}
+.sz{display:flex;align-items:center;gap:6px;margin:0;font-size:15px}
+.person .sz input{flex:none;width:52px;text-align:center;padding:8px 4px}
+.cashbtn{flex:none;width:118px;padding:0 6px;white-space:nowrap;min-height:46px}
+.del{min-height:46px;width:36px;border:0;background:none;color:var(--ink);font-size:22px;line-height:1;font-weight:200}
+.adds{display:flex;gap:8px;margin-top:22px}.add{flex:1}
+.pblock{padding:20px 0;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 13px) left bottom/100% 1.5px no-repeat}.pblock:first-child{padding-top:0}.pblock .person{margin-bottom:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.items{margin-top:10px;display:grid;gap:8px}
+.item{display:flex;gap:8px;align-items:center}
+.item input{min-height:44px;padding:8px 10px;font-size:14px}
+.item .il{flex:1;font-weight:500}
+.item .ia{flex:none;width:120px;font-weight:800;text-align:right}
+.chip{min-height:40px;padding:0 14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:13px;font-weight:700}
+.chip.on{background:#111 url(texture.jpg) center/320px auto;color:var(--bg)}
+.toggle{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:0 14px;border:1.5px solid var(--line);background:transparent;color:var(--ink);font-size:14px;font-weight:600;text-align:left}
+.toggle i{width:18px;height:18px;border:1.5px solid var(--line);flex:none;position:relative}
+.toggle[aria-pressed=true] i::after{content:"";position:absolute;inset:3px;background:#111 url(texture.jpg) center/200px auto}
+.drinkin{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.drinkin label{margin-bottom:8px}
+.mid{width:100%;font-weight:800;font-size:24px;padding:8px 12px;min-height:54px}
+.who .tags{display:block;font-weight:300;font-size:12px;margin-top:2px}
+.who{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:14px;padding:14px 0;background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 13px) left bottom/100% 1.5px no-repeat}
+.who:first-child{border-top:1px solid var(--line)}
+.who span{overflow-wrap:anywhere;font-weight:600}
+.who em{font-style:normal;font-weight:300}
+.who small{display:block;font-weight:300;font-size:13px;margin-top:2px}
+.who small.alt{font-size:12px;font-weight:200;margin-top:0}
+.amt{font-weight:800;font-size:clamp(22px,6.4vw,30px);font-variant-numeric:tabular-nums;white-space:nowrap;letter-spacing:0}
+.meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;font-weight:300;margin-bottom:12px}
+.meta b{font-weight:700}
+.total{display:flex;justify-content:space-between;gap:12px;padding-top:14px;font-size:13px;font-weight:500}
+.total b{font-weight:800}
+.warn{border:1.5px dashed var(--ink);padding:10px 12px;font-size:13px;margin-top:16px;text-transform:none;letter-spacing:0}
+.copy{width:100%;margin-top:20px;min-height:52px;background:#111 url(texture.jpg) center/520px auto;color:var(--bg);font-weight:800}
+.note{font-weight:300;font-size:12px;margin-top:22px;text-transform:none;letter-spacing:0}
+body>.note{display:none}
+@media(prefers-reduced-motion:no-preference){.tips button,.cashbtn{transition:background .12s,color .12s}}
 </style>
+
 </head>
 <body>
-<main>
-<h1><span aria-hidden="true">🪑</span> Chairs</h1>
-<p class="sub">Split the bill</p>
-<div class="card">
-  <div class="row">
+<div class="paperwrap"><div class="paper"><main>
+<header><svg viewBox="0 0 44 74" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M3 3 L8 33 M11 2 L16 32 M3 3 L11 2"/>
+  <path d="M4.2 10 L12.2 9 M5.4 17 L13.4 16 M6.6 24 L14.6 23"/>
+  <path d="M8 33 L8 72 M8 33 L39 33 L33 41 L13 41 L8 33"/>
+  <path d="M15 41 L15 70 M33 41 L33 72 M39 33 L39 64"/>
+</svg>
+<h1>Chairs app</h1>
+<p class="sub">Split the bill and tip the waiter</p>
+</header>
+<hr>
+<section class="sec">
+  <div class="sec">
     <label for="bill">Bill total</label>
-    <input class="big" id="bill" inputmode="decimal" placeholder="0" value="67,500" autocomplete="off">
+    <input class="big" id="bill" inputmode="decimal" placeholder="0" value="80,000" autocomplete="off">
   </div>
   <label for="tip">Tip %</label>
   <input class="big" id="tip" inputmode="decimal" value="10" autocomplete="off">
@@ -78,48 +117,62 @@ mask:radial-gradient(circle 7px at 50% 100%,#0000 98%,#000) 0 0/16px 100% repeat
     <button type="button" data-v="15">15%</button>
     <button type="button" data-v="20">20%</button>
   </div>
-</div>
+</section>
 
-<div class="card">
-  <h2>Who's paying</h2>
+<section class="sec">
+  <button type="button" class="toggle" id="dtog" aria-pressed="false"><i></i>Top chairs user</button>
+  <div class="drinkin" id="dbox" hidden>
+    <div><label for="wine">Wine</label><input class="mid" id="wine" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+    <div><label for="coke">Cokes</label><input class="mid" id="coke" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+  </div>
+</section>
+
+<section class="sec">
+  <span class="lab" style="margin-bottom:4px">Who's paying</span>
   <div id="people"></div>
   <div class="adds"><button class="add" id="add" type="button">+ Add person</button><button class="add" id="addg" type="button">+ Add group</button></div>
-</div>
-
-<div class="card receipt" aria-live="polite">
-  <div class="meta" style="margin-bottom:4px"><span>Bill <b id="mBill">0</b></span><span>Tip <b id="mTip">0</b></span></div>
+</section>
+<hr>
+<section aria-live="polite">
+  <div class="meta"><span>Bill <b id="mBill">0</b></span><span>Tip <b id="mTip">0</b></span></div>
   <div id="out"></div>
-  <div class="meta" style="margin-top:10px"><span>Per person in total</span><b id="each">0</b></div>
+  <div class="total" id="totrow"><span>Per person in total</span><b id="each">0</b></div>
   <div id="warn"></div>
   <button class="copy" id="copy" type="button">Copy totals</button>
-</div>
-<p class="note">Bill and tip split equally per person; a group pays for everyone in it. People with cash pay the whole tip between them; everyone else pays their share of it on card.</p>
-</main>
+</section>
+<p class="note">Bill and tip split equally per person; a group pays for everyone in it. In Top chairs user mode, wine and cokes are split only between the people who had them, anything under Other is paid only by that person, and the rest of the bill is split equally. People with cash pay the whole tip between them; everyone else pays their share of it on card.</p>
+</main></div></div>
 <script>
 {
 const $=id=>document.getElementById(id);
-const bill=$('bill'),tip=$('tip');
+const bill=$('bill'),tip=$('tip'),wine=$('wine'),coke=$('coke');
+const DR=['wine','coke'];
+let drinksOn=false;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const parse=s=>{s=String(s).replace(/\s/g,'');
   const m=s.match(/[.,](\d{1,2})$/);let dec='';
   if(m){dec='.'+m[1];s=s.slice(0,-m[0].length)}
   const n=parseFloat(s.replace(/[.,]/g,'')+dec);return isNaN(n)?0:n};
-const fmt=n=>{const r=Math.round(n*100)/100;
+const fmtP=n=>{const r=Math.round(n*100)/100;return r.toLocaleString('en-US',{maximumFractionDigits:2})};
+const fmt=n=>{const r=Math.round(n);
   return r.toLocaleString('en-US',{minimumFractionDigits:r%1?2:0,maximumFractionDigits:2})};
 
 let people=[{name:'Me',cash:false,size:1},{name:'Josh',cash:true,size:1}];
 try{const s=JSON.parse(localStorage.getItem('chairsPeople'));if(Array.isArray(s)&&s.length)people=s.map(p=>({...p,size:p.size||1}))}catch(e){}
 try{const s=localStorage.getItem('chairsTip');if(s)tip.value=s}catch(e){}
+try{const d=JSON.parse(localStorage.getItem('chairsDrinks'));if(d){drinksOn=!!d.on;wine.value=d.wine||'';coke.value=d.coke||''}}catch(e){}
+people.forEach(p=>{p.drinks=p.drinks||{};p.items=p.items||[]});
 if(people[1]&&/^friend$/i.test(people[1].name))people[1].name='Josh';
-const save=()=>{try{localStorage.setItem('chairsPeople',JSON.stringify(people));localStorage.setItem('chairsTip',tip.value)}catch(e){}};
+const save=()=>{try{localStorage.setItem('chairsPeople',JSON.stringify(people));localStorage.setItem('chairsTip',tip.value);localStorage.setItem('chairsDrinks',JSON.stringify({on:drinksOn,wine:wine.value,coke:coke.value}))}catch(e){}};
 
 function renderPeople(){
-  $('people').innerHTML=people.map((p,i)=>`<div class="person">
+  $('people').innerHTML=people.map((p,i)=>`<div class="pblock"><div class="person">
     <input aria-label="Name" data-i="${i}" value="${esc(p.name)}">
     ${p.size>1||p.group?`<label class="sz">×<input aria-label="People in ${esc(p.name)}" data-size="${i}" inputmode="numeric" value="${p.size}"></label>`:''}
     <button type="button" class="cashbtn${p.cash?' on':''}" data-cash="${i}" aria-pressed="${p.cash}">${p.cash?'Has cash':'No cash'}</button>
     ${people.length>2?`<button type="button" class="del" data-del="${i}" aria-label="Remove">×</button>`:''}
-  </div>`).join('');
+  </div>${drinksOn?`<div class="chips">${DR.map(k=>`<button type="button" class="chip${p.drinks[k]?' on':''}" data-drink="${k}" data-pi="${i}" aria-pressed="${!!p.drinks[k]}">${k}</button>`).join('')}<button type="button" class="chip" data-other="${i}">+ Other</button></div>${p.items.length?`<div class="items">${p.items.map((it,j)=>`<div class="item"><input class="il" aria-label="Item" placeholder="Item" data-il="${i}:${j}" value="${esc(it.label)}"><input class="ia" aria-label="Amount" placeholder="0" inputmode="decimal" data-ia="${i}:${j}" value="${esc(it.amt)}"><button type="button" class="del" data-idel="${i}:${j}" aria-label="Remove item">×</button></div>`).join('')}</div>`:''}`:''}</div>`).join('');
+  $('dtog').setAttribute('aria-pressed',drinksOn);$('dbox').hidden=!drinksOn;
 }
 let last='';
 function calc(){
@@ -127,33 +180,54 @@ function calc(){
   const sz=p=>Math.max(1,Math.round(+p.size||1));
   const n=people.reduce((a,p)=>a+sz(p),0);
   const cashers=people.filter(p=>p.cash).reduce((a,p)=>a+sz(p),0);
-  const each=(b+t)/n,cashEach=cashers?t/cashers:0;
-  $('mBill').textContent=fmt(b);$('mTip').textContent=fmt(t)+' ('+fmt(pc)+'%)';
-  $('each').textContent=fmt(each);
+  const cashEach=cashers?t/cashers:0,r=pc/100;
+  const cost={wine:drinksOn?parse(wine.value):0,coke:drinksOn?parse(coke.value):0};
+  const heads={};DR.forEach(k=>heads[k]=people.filter(p=>p.drinks[k]).reduce((a,p)=>a+sz(p),0));
+  const itemsOf=p=>drinksOn?p.items.map(it=>[it.label||'Other',parse(it.amt)]).filter(x=>x[1]>0):[];
+  let shared=b;DR.forEach(k=>{if(heads[k])shared-=cost[k]});people.forEach(p=>itemsOf(p).forEach(x=>shared-=x[1]));
+  const unclaimed=DR.filter(k=>cost[k]>0&&!heads[k]);
+  const food=shared/n;
+  $('mBill').textContent=fmt(b);$('mTip').textContent=fmt(t)+' ('+fmtP(pc)+'%)';
+  $('each').textContent=fmt((b+t)/n);
+  const anyDrinks=drinksOn&&(DR.some(k=>cost[k]>0&&heads[k])||people.some(p=>itemsOf(p).length));
+  $('totrow').hidden=anyDrinks;
   const rows=people.map(p=>{
-    const k=sz(p),cash=cashers&&p.cash?cashEach*k:0;
-    return {name:p.name||'Someone',k,card:each*k-cash,cash}});
-  $('out').innerHTML=rows.map(r=>`<div class="who"><div><span>${esc(r.name)}${r.k>1?` <em>(${r.k} people)</em>`:''}</span>${r.cash?`<small>+ ${fmt(r.cash)} cash tip</small>`:''}</div><div class="amt">${fmt(r.card)}</div></div>`).join('');
+    const k=sz(p);let share=food*k;
+    const had=DR.filter(d=>p.drinks[d]&&drinksOn);
+    const dl=[];had.forEach(d=>{if(heads[d]){const a=cost[d]/heads[d]*k;share+=a;dl.push([d,a])}});
+    itemsOf(p).forEach(x=>{share+=x[1];dl.push(x)});
+    const total=share*(1+r),cash=cashers&&p.cash?cashEach*k:0;
+    return {name:p.name||'Someone',k,card:total-cash,cash,had:dl}});
+  $('out').innerHTML=rows.map(r=>`<div class="who"><div><span>${esc(r.name)}${r.k>1?` <em>(${r.k} people)</em>`:''}</span>${anyDrinks&&r.had.length?`<span class="tags">${r.had.map(([d,a])=>`${esc(d)} ${fmt(a)}`).join(' + ')}</span>`:''}${r.cash?`<small>+ ${fmt(r.cash)} cash tip</small><small class="alt">or ${fmt(r.card+r.cash)} all in cash</small>`:''}</div><div class="amt">${fmt(r.card)}</div></div>`).join('');
   let w='';
   if(!cashers)w='Nobody has cash, so the tip is included in everyone’s card total. Check the restaurant will take the tip on card.';
+  if(unclaimed.length)w+=(w?' ':'')+`Nobody is marked as having ${unclaimed.join(' or ')}, so ${unclaimed.length>1?'those are':'it is'} split equally with the rest of the bill.`;
+  if(shared<0)w+=(w?' ':'')+'The drinks and other items add up to more than the bill total. Check the numbers.';
   else if(rows.some(r=>r.card<0))w='The cash tip is bigger than a cash payer’s share of the bill, so their card total is negative: others owe them the difference.';
   $('warn').innerHTML=w?`<div class="warn">${w}</div>`:'';
   document.querySelectorAll('#presets button').forEach(x=>x.classList.toggle('on',parse(x.dataset.v)===pc));
-  last=`Bill ${fmt(b)}, tip ${fmt(pc)}% (${fmt(t)})\n`+rows.map(r=>`${r.name}${r.k>1?` (${r.k})`:''}: ${fmt(r.card)} card${r.cash?` + ${fmt(r.cash)} cash tip`:''}`).join('\n');
+  last=`Bill ${fmt(b)}, tip ${fmtP(pc)}% (${fmt(t)})\n`+rows.map(r=>`${r.name}${r.k>1?` (${r.k})`:''}${anyDrinks&&r.had.length?` [${r.had.map(([d,a])=>`${d} ${fmt(a)}`).join(' + ')}]`:''}: ${fmt(r.card)} card${r.cash?` + ${fmt(r.cash)} cash tip (or ${fmt(r.card+r.cash)} all in cash)`:''}`).join('\n');
   save();
 }
 $('people').addEventListener('input',e=>{const d=e.target.dataset;
+  if(d.il){const[a,b]=d.il.split(':');people[a].items[b].label=e.target.value;calc();return}
+  if(d.ia){const[a,b]=d.ia.split(':');people[a].items[b].amt=e.target.value;calc();return}
   if(d.i!=null){people[d.i].name=e.target.value;calc()}
   else if(d.size!=null){const v=parseInt(e.target.value,10);if(v>0){people[d.size].size=v;calc()}}});
 $('people').addEventListener('focusin',e=>{if(e.target.dataset.size!=null)e.target.select()});
-$('people').addEventListener('focusout',e=>{const d=e.target.dataset;if(d.size!=null)e.target.value=people[d.size].size});
+$('people').addEventListener('focusout',e=>{const d=e.target.dataset;if(d.size!=null)e.target.value=people[d.size].size;if(d.ia&&e.target.value){const[a,b]=d.ia.split(':');e.target.value=people[a].items[b].amt=fmt(parse(e.target.value))}});
 $('people').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
   if(t.dataset.cash!=null){const p=people[t.dataset.cash];p.cash=!p.cash}
+  else if(t.dataset.other!=null){people[t.dataset.other].items.push({label:'',amt:''});renderPeople();calc();const q=document.querySelectorAll(`[data-il^="${t.dataset.other}:"]`);q[q.length-1].focus();return}
+  else if(t.dataset.idel){const[a,b]=t.dataset.idel.split(':');people[a].items.splice(+b,1)}
+  else if(t.dataset.drink){const p=people[t.dataset.pi],d=t.dataset.drink;p.drinks[d]=!p.drinks[d]}
   else if(t.dataset.del!=null){people.splice(+t.dataset.del,1)}
   renderPeople();calc()});
-$('add').addEventListener('click',()=>{people.push({name:'Friend '+people.length,cash:false,size:1});renderPeople();calc()});
-$('addg').addEventListener('click',()=>{people.push({name:'Couple',cash:false,size:2,group:true});renderPeople();calc()});
-bill.addEventListener('input',calc);tip.addEventListener('input',calc);
+$('add').addEventListener('click',()=>{people.push({name:'Friend '+people.length,cash:false,size:1,drinks:{},items:[]});renderPeople();calc()});
+$('addg').addEventListener('click',()=>{people.push({name:'Couple',cash:false,size:2,group:true,drinks:{},items:[]});renderPeople();calc()});
+bill.addEventListener('input',calc);tip.addEventListener('input',calc);wine.addEventListener('input',calc);coke.addEventListener('input',calc);
+[wine,coke].forEach(x=>{x.addEventListener('blur',()=>{if(x.value)x.value=fmt(parse(x.value))});x.addEventListener('focus',()=>x.select())});
+$('dtog').addEventListener('click',()=>{drinksOn=!drinksOn;renderPeople();calc();if(drinksOn)wine.focus()});
 bill.addEventListener('blur',()=>{if(bill.value)bill.value=fmt(parse(bill.value))});
 bill.addEventListener('focus',()=>bill.select());tip.addEventListener('focus',()=>tip.select());
 $('presets').addEventListener('click',e=>{const v=e.target.dataset&&e.target.dataset.v;if(v){tip.value=v;calc()}});
